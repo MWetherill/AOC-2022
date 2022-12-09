@@ -16,13 +16,15 @@ try {
 // split the input stacks
 stackStart = stackStart.split('\n')
 
+var highestStack = stackStart.length - 1;
+
 // determine number of stacks in starting input
 numberOfStacks = stackStart[stackStart.length-1].replace(/\s/g, "");
 numberOfStacks = numberOfStacks[numberOfStacks.length-1]
 
 // add [-] to all column gaps and then split the array item into a new array
 for (var i = 0; i < stackStart.length - 1; i++) {
-  stackStart[i] = stackStart[i].replace(/  +/g, "[-]")
+  stackStart[i] = stackStart[i].replace(/    /g, "[-]")
   stackStart[i] = stackStart[i].replace(/\s/g, "")
   stackStart[i] = stackStart[i].match(/.{1,3}/g)
 }
@@ -34,27 +36,9 @@ for (var i = 0; i < numberOfStacks; ++i) {
     stacks[i] = [];
 }
 
-// re-arrange from input columns into new arrays
-
-// this is what I need to set out in a loop
-// stacks[0].push(stackStart[0][0])
-// stacks[0].push(stackStart[1][0])
-// stacks[0].push(stackStart[2][0])
-// stacks[0].reverse()
-// stacks[0] remove all [-]
-// stacks[1].push(stackStart[0][1])
-// stacks[1].push(stackStart[1][1])
-// stacks[1].push(stackStart[2][1])
-// stacks[1].reverse()
-// stacks[1] remove all [-]
-// stacks[2].push(stackStart[0][2])
-// stacks[2].push(stackStart[1][2])
-// stacks[2].push(stackStart[2][2])
-// stacks[2].reverse()
-// stacks[2] remove all [-]
-
-for (var i = 0; i < stacks.length; i++) {
-  for (var j = 0; j < stackStart[i].length; j++) {
+// // re-arrange from input columns into new arrays
+for (var i = 0; i < numberOfStacks; i++) {
+  for (var j = 0; j < highestStack; j++) {
     stacks[i].push(stackStart[j][i])
   }
   stacks[i].reverse()
@@ -64,6 +48,11 @@ for (var i = 0; i < stacks.length; i++) {
   }
 }
 
+console.log("\n/////STARTING STATE////\n")
+
+for (var i = 0; i < stacks.length; i++) {
+  console.log("stack " + (i + 1) + ": " + stacks[i])
+}
 //////////////
 
 //  remove wording from procedure
@@ -92,25 +81,29 @@ function movers(input) {
 
 // loop through procedure and apply movers function
 for (var i = 0; i < procedure.length; i++) {
+  console.log(procedure[i])
   movers(procedure[i])
 }
+
 
 // loop through final state and take last items/letter
 var finalCode = []
 for (var i = 0; i < stacks.length; i++) {
-  var stackLetter = stacks[i][stacks[i].length - 1]
-  finalCode.push(stackLetter[1])
+  if (stacks[i].length > 0) {
+    var stackLetter = stacks[i][stacks[i].length - 1]
+    finalCode.push(stackLetter[1])
+  }
 }
 finalCode = finalCode.join("")
 
 // final state
 
-console.log("/////FINAL STATE////\n")
+console.log("\n/////FINAL STATE////\n")
 
 for (var i = 0; i < stacks.length; i++) {
-  console.log("stack " + i + ": " + stacks[i])
+  console.log("stack " + (i + 1) + ": " + stacks[i])
 }
 
 console.log("\n/////FINAL CODE////\n")
 
-console.log(finalCode)
+console.log(finalCode + "\n")
