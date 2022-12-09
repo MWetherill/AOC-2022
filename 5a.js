@@ -72,36 +72,45 @@ for (var i = 0; i < procedure.length; i++) {
   procedure[i] = procedure[i].replace(' from ', '')
   procedure[i] = procedure[i].replace(' to ', '')
   procedure[i] = procedure[i].split('')
+  for (var j = 0; j < procedure[i].length; j++) {
+    procedure[i][j] = parseInt(procedure[i][j])
+  }
 }
 
 // MOVE //FROM //TO
 
-// funcyion to process movers
+// function to process movers
 function movers(input) {
-  var num = parseInt(input[0])
-  console.log("num: " + num)
-  var stackFrom = stacks[input[1] - 1]
-  console.log("stackFrom: " + stackFrom)
-  var stackTo = stacks[input[2] - 1]
-  console.log("stackTo: " + stackTo)
-  var spliceLast = stackFrom.length - 1
-  var spliceFirst = spliceLast - num
-  console.log(spliceFirst, spliceLast)
-  let movers = stackFrom.splice(spliceFirst, spliceLast)
-  console.log(movers)
-  stacks[input[1] -1] = stackFrom
-  stacks[input[2] -1] = stackTo
-  stacks[input[2] -1].push(movers)
-  console.log("stackTo: " + stacks[input[2] -1])
-  console.log("\n////////////\n")
+  var move = input[0]
+  var from = input[1] - 1
+  var to = input[2] - 1
+  for (var i = 0; i < move; i++) {
+    var mover = stacks[from].pop()
+    stacks[to].push(mover)
+  }
 }
 
 // loop through procedure and apply movers function
+for (var i = 0; i < procedure.length; i++) {
+  movers(procedure[i])
+}
 
-console.log("/////TEST////\n")
-movers(procedure[0])
-movers(procedure[1])
+// loop through final state and take last items/letter
+var finalCode = []
+for (var i = 0; i < stacks.length; i++) {
+  var stackLetter = stacks[i][stacks[i].length - 1]
+  finalCode.push(stackLetter[1])
+}
+finalCode = finalCode.join("")
 
-console.log("stack 1: " + stacks[0])
-console.log("stack 2: " + stacks[1])
-console.log("stack 3: " + stacks[2])
+// final state
+
+console.log("/////FINAL STATE////\n")
+
+for (var i = 0; i < stacks.length; i++) {
+  console.log("stack " + i + ": " + stacks[i])
+}
+
+console.log("\n/////FINAL CODE////\n")
+
+console.log(finalCode)
