@@ -89,12 +89,14 @@ function movers(input) {
   console.log("to " + input[2] + ": " + stacks[to])
   if(stacks[from].length < move) {
     var movers = stacks[from].splice(0, move)
+    movers.reverse();
     for (var j = 0; j < move; j++) {
       var mover = movers.pop()
       stacks[to].push(mover)
     }
   } else {
     var movers = stacks[from].splice(stacks[from].length - move, move)
+    movers.reverse();
     for (var j = 0; j < move; j++) {
       var mover = movers.pop()
       stacks[to].push(mover)
